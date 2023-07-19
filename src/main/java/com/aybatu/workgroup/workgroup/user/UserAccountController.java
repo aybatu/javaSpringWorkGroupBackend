@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,19 +44,19 @@ public class UserAccountController {
         try {
             Company company = companyRepository.findByRegistrationNumber(companyRegistrationNumber);
             if (company == null) {
-                System.out.println("Test0");
+               
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Company not found");
             }
-            System.out.println("Test1.0");
-            Optional<UserAccount> isNewUser = userAccountService.getUserAccountByEmailAddress(request.getEmailAddress());
- 
-            if (isNewUser.isPresent()) {
-                System.out.println("test2");
+
+            boolean isUserExists = userAccountService.isEmailAddressRegisted(request.getEmailAddress(), company);
+     
+            if (isUserExists) {
+             
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
             }
 
             if (request.getAccountType().equals(AccountTypes.EMPLOYEE)) {
-                System.out.println("test3");
+    
                 Employee userAccount = new Employee(
                         request.getEmailAddress(),
                         request.getUserFirstName(),
@@ -64,7 +65,7 @@ public class UserAccountController {
                 );
                 company.addEmployeeAccount(userAccount);
             } else if (request.getAccountType().equals(AccountTypes.MANAGER)) {
-                System.out.println("test4");
+              
                 Manager userAccount = new Manager(
                         request.getEmailAddress(),
                         request.getUserFirstName(),

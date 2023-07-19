@@ -33,11 +33,6 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public Optional<Company> getCompanyById(String id) {
-        return companyRepository.findById(id);
-
-    }
-
     public Company getCompanyByRegistrationNumber(String registrationNumber) {
         // Implement the logic to retrieve the company from the repository using the registration number
         // Return the retrieved company or null if not found

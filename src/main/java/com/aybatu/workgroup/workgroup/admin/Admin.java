@@ -18,7 +18,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "OwnerAccount")
 public class Admin implements UserAccount {
 
-    @Id
     @Field("emailAddress")
     private String emailAddress;
     private AccountTypes accountType;
@@ -29,7 +28,7 @@ public class Admin implements UserAccount {
    public Admin(String emailAddress, String userFirstName, String userLastName, String password) {
     
         this.accountType = AccountTypes.ADMIN;
-          this.emailAddress = emailAddress;
+        this.emailAddress = emailAddress;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.password = password;

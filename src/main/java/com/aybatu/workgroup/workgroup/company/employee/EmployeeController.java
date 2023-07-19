@@ -4,10 +4,24 @@
  */
 package com.aybatu.workgroup.workgroup.company.employee;
 
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  *
  * @author aybatukerkukluoglu
  */
+@RestController
 public class EmployeeController {
+    private EmployeeService employeeService;
     
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+    
+    public Employee getEmployeeByEmailAddress(String emailAddress){
+        return employeeService.getEmployeeByEmailAddress(emailAddress);
+    }
 }

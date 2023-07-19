@@ -4,6 +4,16 @@
  */
 package com.aybatu.workgroup.workgroup.user;
 
+import com.aybatu.workgroup.workgroup.admin.Admin;
+import com.aybatu.workgroup.workgroup.admin.AdminController;
+import com.aybatu.workgroup.workgroup.company.Company;
+import com.aybatu.workgroup.workgroup.company.CompanyController;
+import com.aybatu.workgroup.workgroup.company.CompanyService;
+import com.aybatu.workgroup.workgroup.company.employee.Employee;
+import com.aybatu.workgroup.workgroup.company.employee.EmployeeController;
+import com.aybatu.workgroup.workgroup.manager.Manager;
+import com.aybatu.workgroup.workgroup.manager.ManagerController;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +25,42 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserAccountService {
 
-    private final UserAccountRepository userAccountRepository;
 
+    private final CompanyService companyService;
+   
     @Autowired
-    public UserAccountService(UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = userAccountRepository;
+    public UserAccountService(CompanyService companyService) {
+        this.companyService = companyService;
     }
 
-    public Optional<UserAccount> getUserAccountByEmailAddress(String emailAddress) {
-        Optional<UserAccount> userAccountOptional = userAccountRepository.findById(emailAddress);
+    public boolean isEmailAddressRegisted(String emailAddress, Company company) {
+
+        List<Employee> employeeList = company.getEmployeeAccounts();
+        List<Manager> managerList = company.getManagerAccounts();
+        Admin ownerAccount = company.getOwnerAccount();
+      
+        if(!employeeList.isEmpty()) {
+            for(Employee e: employeeList){
+                if(e.getEmailAddress().equalsIgnoreCase(emailAddress)) {
+                    System.out.println("FoundEmployee: " + e.getEmailAddress());
+                    return true;
+                }
+            }
+        }
+        if(ownerAccount.getEmailAddress().equalsIgnoreCase(emailAddress)) {
+            System.out.println("FoundOwner: " + ownerAccount.getEmailAddress());
+           return true;
+        }
+        if(!managerList.isEmpty()) {
+            for(Manager m: managerList){
+                if(m.getEmailAddress().equalsIgnoreCase(emailAddress)) {
+                    System.out.println("FoundManager: " + m.getEmailAddress());
+                    return true;
+                }
+            }
+        }
         
-      return userAccountOptional;
+        return false;
     }
 
 }

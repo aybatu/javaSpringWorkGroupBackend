@@ -6,7 +6,7 @@ package com.aybatu.workgroup.workgroup.manager;
  */
 
 
-import com.aybatu.workgroup.workgroup.manager.Manager;
+import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 
 public interface ManagerRepository extends MongoRepository<Manager, String> {
-    // Manager-specific methods...
+    Manager findByEmailAddress(String emailAddress);
 }
 

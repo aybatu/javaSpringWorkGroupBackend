@@ -4,10 +4,24 @@
  */
 package com.aybatu.workgroup.workgroup.admin;
 
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  *
  * @author aybatukerkukluoglu
  */
+@RestController
 public class AdminController {
+    private AdminService adminService;
     
+    @Autowired
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
+    
+    public Admin getAdminByEmailAddress(String emailAddress) {
+        return adminService.getAdminByEmailAddress(emailAddress);
+    }
 }

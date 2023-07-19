@@ -19,7 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
  */
 @Document(collection = "Manager")
 public class Manager implements UserAccount {
-    @Id
+  
     @Field("emailAddress")
     private String emailAddress;
        private AccountTypes accountType;

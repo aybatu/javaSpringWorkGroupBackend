@@ -4,10 +4,25 @@
  */
 package com.aybatu.workgroup.workgroup.admin;
 
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 /**
  *
  * @author aybatukerkukluoglu
  */
+@Service
 public class AdminService {
+    private AdminRepository adminRepository;
     
+    @Autowired
+    public AdminService(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
+    }
+    
+    Admin getAdminByEmailAddress(String emailAddress) {
+        return adminRepository.findByEmailAddress(emailAddress);
+    }
+            
 }

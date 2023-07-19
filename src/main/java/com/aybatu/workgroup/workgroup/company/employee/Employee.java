@@ -7,7 +7,6 @@ package com.aybatu.workgroup.workgroup.company.employee;
 
 import com.aybatu.workgroup.workgroup.user.AccountTypes;
 import com.aybatu.workgroup.workgroup.user.UserAccount;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -17,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
  */
 @Document(collection = "Employee")
 public class Employee implements UserAccount {
-    @Id
+    
     @Field("emailAddress")
     private String emailAddress;
        private  AccountTypes accountType;
