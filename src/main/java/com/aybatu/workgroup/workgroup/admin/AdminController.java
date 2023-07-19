@@ -21,7 +21,4 @@ public class AdminController {
         this.adminService = adminService;
     }
     
-    public Admin getAdminByEmailAddress(String emailAddress) {
-        return adminService.getAdminByEmailAddress(emailAddress);
-    }
 }

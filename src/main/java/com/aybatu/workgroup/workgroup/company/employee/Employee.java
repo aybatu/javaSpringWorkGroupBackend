@@ -5,8 +5,12 @@
 package com.aybatu.workgroup.workgroup.company.employee;
 
 
+import com.aybatu.workgroup.workgroup.project.Meeting;
+import com.aybatu.workgroup.workgroup.task.Task;
 import com.aybatu.workgroup.workgroup.user.AccountTypes;
 import com.aybatu.workgroup.workgroup.user.UserAccount;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -23,9 +27,8 @@ public class Employee implements UserAccount {
        private String userFirstName;
        private String userLastName;
        private String password;
-      
-//       private [Task] userTasks;
-//       private [Meeting] employeeMeetings;
+       private List<Task> userTasks;
+       private List<Meeting> employeeInvitedMeetings;
        
        public Employee(String emailAddress, String userFirstName, String userLastName, String password) {
    
@@ -34,8 +37,19 @@ public class Employee implements UserAccount {
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.password = password;
+        this.userTasks = new ArrayList<>();
+        this.employeeInvitedMeetings = new ArrayList<>();
     }
 
+    public List<Task> getUserTasks() {
+        return userTasks;
+    }
+
+    public List<Meeting> getEmployeeInvitedMeetings() {
+        return employeeInvitedMeetings;
+    }
+
+    
   
     public String getAccountType() {
         return AccountTypes.EMPLOYEE.toString();

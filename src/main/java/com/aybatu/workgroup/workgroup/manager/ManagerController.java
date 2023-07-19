@@ -4,8 +4,13 @@
  */
 package com.aybatu.workgroup.workgroup.manager;
 
-import java.util.Optional;
+import com.aybatu.workgroup.workgroup.company.Company;
+import com.aybatu.workgroup.workgroup.company.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -15,13 +20,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ManagerController {
     private ManagerService managerService;
+    private CompanyService companyService;
     
     @Autowired
-    public ManagerController(ManagerService managerService) {
+    public ManagerController(ManagerService managerService, CompanyService companyService) {
         this.managerService = managerService;
+        this.companyService = companyService;
     }
     
-    public Manager getManagerByEmailAddress(String emailAddress) {
-        return managerService.getManagerByEmailAddress(emailAddress);
+    @GetMapping("company/managerAccounts/{companyRegistrationNumber}")
+    public ResponseEntity<?> getManagerAccounts(@PathVariable String companyRegistrationNumber) {
+        Company company = companyService.getCompanyByRegistrationNumber(companyRegistrationNumber);
+        
+        if (company != null) {
+            return ResponseEntity.ok(company.getManagerAccounts());
+        } else {
+            String errorMsg = "Please check your internet connection. There was an error while fetching company information.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMsg);
+        }
     }
 }

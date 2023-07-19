@@ -8,11 +8,9 @@ import com.aybatu.workgroup.workgroup.company.employee.Employee;
 import com.aybatu.workgroup.workgroup.manager.Manager;
 import com.aybatu.workgroup.workgroup.company.Company;
 import com.aybatu.workgroup.workgroup.company.CompanyRepository;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,19 +42,16 @@ public class UserAccountController {
         try {
             Company company = companyRepository.findByRegistrationNumber(companyRegistrationNumber);
             if (company == null) {
-               
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Company not found");
             }
 
             boolean isUserExists = userAccountService.isEmailAddressRegisted(request.getEmailAddress(), company);
      
             if (isUserExists) {
-             
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("There is a user already registered with the email address " + request.getEmailAddress() + ". Please try a different email address to register user.");
             }
 
             if (request.getAccountType().equals(AccountTypes.EMPLOYEE)) {
-    
                 Employee userAccount = new Employee(
                         request.getEmailAddress(),
                         request.getUserFirstName(),
@@ -65,7 +60,6 @@ public class UserAccountController {
                 );
                 company.addEmployeeAccount(userAccount);
             } else if (request.getAccountType().equals(AccountTypes.MANAGER)) {
-              
                 Manager userAccount = new Manager(
                         request.getEmailAddress(),
                         request.getUserFirstName(),
@@ -79,7 +73,7 @@ public class UserAccountController {
             return ResponseEntity.ok("Account created successfully");
 
         } catch (Exception e) {
-            String errorMessage = "Failed to create account: " + e.getMessage();
+            String errorMessage = "Failed to create account. Please check your internet connection. Could not connect to the server. ";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
 

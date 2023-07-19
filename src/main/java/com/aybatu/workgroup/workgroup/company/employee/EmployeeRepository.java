@@ -4,7 +4,7 @@
  */
 package com.aybatu.workgroup.workgroup.company.employee;
 
-import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
@@ -12,5 +12,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @author aybatukerkukluoglu
  */
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
-    Employee findByEmailAddress(String emailAddress);
+ 
 }

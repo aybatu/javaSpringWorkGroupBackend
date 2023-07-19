@@ -70,22 +70,5 @@ public class CompanyController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
-//    
-//  @GetMapping("/company/login/email={emailAddress}/password={password}/registrationNumber={companyRegistrationNumber}")
-//public ResponseEntity<?> getUserByEmail(@PathVariable String emailAddress, @PathVariable String password, @PathVariable String companyRegistrationNumber) {
-//    try {
-//        AccountType accountType = companyService.authenticateUser(emailAddress, password, companyRegistrationNumber);
-//        
-//        if (accountType != null) {
-//            return ResponseEntity.ok(accountType);
-//        } else {
-//            String errorMessage = "Invalid username or password.";
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
-//        }
-//    } catch (Exception e) {
-//        String errorMessage = "An error occurred while retrieving the company.";
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-//    }
-//}
-  
+
 }

@@ -14,6 +14,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @author aybatukerkukluoglu
  */
 public interface AdminRepository extends MongoRepository<Admin, String> {
-    Admin findByEmailAddress(String emailAddress);
 }
 

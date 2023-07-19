@@ -26,7 +26,7 @@ public class Manager implements UserAccount {
        private String userFirstName;
        private String userLastName;
        private String password;
-       private List<Meeting> employeeMeetings;
+       private List<Meeting> managerMeetings;
 
       
     public Manager(String emailAddress, String userFirstName, String userLastName, String password) {
@@ -35,9 +35,12 @@ public class Manager implements UserAccount {
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.password = password;
-        this.employeeMeetings = new ArrayList<>();
+        this.managerMeetings = new ArrayList<>();
     }
 
+    public List<Meeting> getManagerMeetings() {
+        return managerMeetings;
+    }
 
     public String getAccountType() {
         return AccountTypes.MANAGER.toString();

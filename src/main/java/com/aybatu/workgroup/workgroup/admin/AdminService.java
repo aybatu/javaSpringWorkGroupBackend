@@ -21,8 +21,6 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
     
-    Admin getAdminByEmailAddress(String emailAddress) {
-        return adminRepository.findByEmailAddress(emailAddress);
-    }
+   
             
 }
