@@ -5,8 +5,8 @@
 package com.aybatu.workgroup.workgroup.admin;
 
 
-import com.aybatu.workgroup.workgroup.user.AccountTypes;
-import com.aybatu.workgroup.workgroup.user.UserAccount;
+import com.aybatu.workgroup.workgroup.userAccountRequests.AccountTypes;
+import com.aybatu.workgroup.workgroup.userAccountRequests.UserAccount;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

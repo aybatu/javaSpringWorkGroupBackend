@@ -5,12 +5,14 @@
 package com.aybatu.workgroup.workgroup.company.employee;
 
 
-import com.aybatu.workgroup.workgroup.project.Meeting;
+import com.aybatu.workgroup.workgroup.meeting.Meeting;
 import com.aybatu.workgroup.workgroup.task.Task;
-import com.aybatu.workgroup.workgroup.user.AccountTypes;
-import com.aybatu.workgroup.workgroup.user.UserAccount;
+import com.aybatu.workgroup.workgroup.userAccountRequests.AccountTypes;
+import com.aybatu.workgroup.workgroup.userAccountRequests.UserAccount;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -20,7 +22,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
  */
 @Document(collection = "Employee")
 public class Employee implements UserAccount {
-    
+    @Id
     @Field("emailAddress")
     private String emailAddress;
        private  AccountTypes accountType;
@@ -33,7 +35,7 @@ public class Employee implements UserAccount {
        public Employee(String emailAddress, String userFirstName, String userLastName, String password) {
    
         this.accountType = AccountTypes.EMPLOYEE;
-          this.emailAddress = emailAddress;
+         this.emailAddress = emailAddress;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.password = password;
@@ -73,6 +75,19 @@ public class Employee implements UserAccount {
 
     public String getPassword() {
         return password;
+    }
+    
+     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Employee employee = (Employee) obj;
+        return Objects.equals(emailAddress, employee.emailAddress);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(emailAddress);
     }
     
 }

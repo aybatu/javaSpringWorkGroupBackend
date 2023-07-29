@@ -4,11 +4,12 @@
  */
 package com.aybatu.workgroup.workgroup.company;
 
-import com.aybatu.workgroup.workgroup.meeting.Project;
-import com.aybatu.workgroup.workgroup.project.Meeting;
+
 import com.aybatu.workgroup.workgroup.admin.Admin;
 import com.aybatu.workgroup.workgroup.company.employee.Employee;
 import com.aybatu.workgroup.workgroup.manager.Manager;
+import com.aybatu.workgroup.workgroup.meeting.Meeting;
+import com.aybatu.workgroup.workgroup.project.Project;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.annotation.Id;
@@ -65,22 +66,6 @@ public class Company {
 
     public List<Meeting> getMeetings() {
         return meetings;
-    }
-
-    public boolean addEmployeeAccount(Employee employeeAccount) {
-        if (!employeeAccounts.contains(employeeAccount)) {
-            employeeAccounts.add(employeeAccount);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean addManagerAccount(Manager managerAccount) {
-        if (!managerAccounts.contains(managerAccount)) {
-            managerAccounts.add(managerAccount);
-            return true;
-        }
-        return false;
     }
 
     public void setRegistrationNumber(String registerNo) {

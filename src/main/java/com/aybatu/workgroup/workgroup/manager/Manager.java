@@ -4,11 +4,13 @@
  */
 package com.aybatu.workgroup.workgroup.manager;
 
-import com.aybatu.workgroup.workgroup.project.Meeting;
-import com.aybatu.workgroup.workgroup.user.AccountTypes;
-import com.aybatu.workgroup.workgroup.user.UserAccount;
+import com.aybatu.workgroup.workgroup.company.employee.Employee;
+import com.aybatu.workgroup.workgroup.meeting.Meeting;
+import com.aybatu.workgroup.workgroup.userAccountRequests.AccountTypes;
+import com.aybatu.workgroup.workgroup.userAccountRequests.UserAccount;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -64,6 +66,19 @@ public class Manager implements UserAccount {
 
     public String getPassword() {
         return password;
+    }
+    
+         @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Manager manager = (Manager) obj;
+        return Objects.equals(emailAddress, manager.emailAddress);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(emailAddress);
     }
 
 }

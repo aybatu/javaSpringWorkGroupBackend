@@ -8,7 +8,7 @@ package com.aybatu.workgroup.workgroup.userAccountRequests;
  *
  * @author aybatukerkukluoglu
  */
-public class CreateUserAccountRequest {
+public class DeleteUserAccountRequest {
     private String emailAddress;
     private AccountTypes accountType;
     private String userFirstName;

@@ -12,5 +12,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @author aybatukerkukluoglu
  */
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
- 
+    public Employee findByEmailAddress(String emailAddress);
 }
