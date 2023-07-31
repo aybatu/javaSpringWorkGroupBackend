@@ -5,6 +5,7 @@
 package com.aybatu.workgroup.workgroup.company.employee;
 
 
+import com.aybatu.workgroup.workgroup.company.Company;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,17 @@ public class EmployeeService {
 
     }
     
+    public Employee getEmployeeByEmailAddress(Company company, String emailAddress) {
+        if (company != null) {
+            return company.getEmployeeAccounts().stream()
+                    .filter(userAccount -> {
+                return userAccount.getEmailAddress().equals(emailAddress);
+            })
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
+    }
   
    
 }

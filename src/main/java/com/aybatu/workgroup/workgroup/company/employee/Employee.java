@@ -52,7 +52,6 @@ public class Employee implements UserAccount {
     }
 
     
-  
     public String getAccountType() {
         return AccountTypes.EMPLOYEE.toString();
     }
@@ -75,6 +74,34 @@ public class Employee implements UserAccount {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setAccountType(AccountTypes accountType) {
+        this.accountType = accountType;
+    }
+
+    public void setUserFirstName(String userFirstName) {
+        this.userFirstName = userFirstName;
+    }
+
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserTasks(List<Task> userTasks) {
+        this.userTasks = userTasks;
+    }
+
+    public void setEmployeeInvitedMeetings(List<Meeting> employeeInvitedMeetings) {
+        this.employeeInvitedMeetings = employeeInvitedMeetings;
     }
     
      @Override

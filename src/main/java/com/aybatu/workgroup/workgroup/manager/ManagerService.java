@@ -4,6 +4,8 @@
  */
 package com.aybatu.workgroup.workgroup.manager;
 
+import com.aybatu.workgroup.workgroup.company.Company;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +21,18 @@ public class ManagerService {
     public ManagerService(ManagerRepository managerRepository) {
         this.managerRepository = managerRepository;
     }
+  
     
-   
-    
+    public Manager getManagerByEmailAddress(Company company, String emailAddress) {
+        if (company != null) {
+            return company.getManagerAccounts().stream()
+                    .filter(userAccount -> {
+                return userAccount.getEmailAddress().equals(emailAddress);
+            })
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
+    }
     
 }

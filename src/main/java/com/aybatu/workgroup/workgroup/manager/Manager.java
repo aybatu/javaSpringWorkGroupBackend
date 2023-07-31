@@ -21,7 +21,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
  */
 @Document(collection = "Manager")
 public class Manager implements UserAccount {
-  
+    @Id
     @Field("emailAddress")
     private String emailAddress;
        private AccountTypes accountType;
@@ -44,29 +44,60 @@ public class Manager implements UserAccount {
         return managerMeetings;
     }
 
+    @Override
     public String getAccountType() {
-        return AccountTypes.MANAGER.toString();
+        return accountType.toString();
     }
 
  
+    @Override
     public String getEmailAddress() {
         return emailAddress;
     }
 
 
+    @Override
     public String getUserFirstName() {
         return userFirstName;
     }
 
 
+    @Override
     public String getUserLastName() {
         return userLastName;
     }
 
 
+    @Override
     public String getPassword() {
         return password;
     }
+    
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setAccountType(AccountTypes accountType) {
+        this.accountType = accountType;
+    }
+
+    public void setUserFirstName(String userFirstName) {
+        this.userFirstName = userFirstName;
+    }
+
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setManagerMeetings(List<Meeting> managerMeetings) {
+        this.managerMeetings = managerMeetings;
+    }
+    
     
          @Override
     public boolean equals(Object obj) {
