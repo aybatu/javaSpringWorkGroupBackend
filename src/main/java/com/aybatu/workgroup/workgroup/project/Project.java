@@ -5,25 +5,53 @@
 package com.aybatu.workgroup.workgroup.project;
 
 import com.aybatu.workgroup.workgroup.task.Task;
-import java.util.Date;
+import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author aybatukerkukluoglu
  */
+@Document(collection = "Projects")
 public class Project {
-    
+    @Id
     private String title;
     private String description;
-    private Task[] tasks;
-    private Date startDate;
-    private Date finishDate;
+    private List<Task> tasks;
+    private String startDate;
+    private String endDate;
 
-    public Project(String title, String description, Task[] tasks, Date startDate, Date finishDate) {
+    public Project(String title, String description, List<Task> tasks, String startDate, String endDate) {
         this.title = title;
         this.description = description;
         this.tasks = tasks;
         this.startDate = startDate;
-        this.finishDate = finishDate;
+        this.endDate = endDate;
     }
+    
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+    
 }

@@ -9,11 +9,14 @@ import com.aybatu.workgroup.workgroup.userAccountRequests.AccountTypes;
 import com.aybatu.workgroup.workgroup.company.employee.Employee;
 import com.aybatu.workgroup.workgroup.company.employee.EmployeeRepository;
 import com.aybatu.workgroup.workgroup.manager.Manager;
+import com.aybatu.workgroup.workgroup.project.Project;
+import com.aybatu.workgroup.workgroup.task.Task;
 import com.aybatu.workgroup.workgroup.userAccountRequests.UserAccount;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -218,8 +221,42 @@ public class CompanyService {
 
         return false;
     }
-    
+
     public Company findCompanyByOwnerAccountEmailAddress(String emailAddress) {
         return companyRepository.findByOwnerAccountEmailAddress(emailAddress);
     }
+    
+    public void saveCompany(Company company) {
+        companyRepository.save(company);
+    }
+
+//    public ResponseEntity<?> addProject(String companyRegistrationNumber, Project projectRequest) {
+//        System.out.println("giris1");
+//        Company company = companyRepository.findByRegistrationNumber(companyRegistrationNumber);
+//        List<Project> projects = company.getProjects();
+//        System.out.println("giris");
+//
+//        Project project = projects.stream()
+//                .filter(foundProject -> foundProject.getTitle().equals(projectRequest.getTitle()))
+//                .findFirst()
+//                .orElse(null);
+//        System.out.println("test1");
+//        if (project != null) {
+//            System.out.println("test2");
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Project is already registered once. Please try with another project title.");
+//        }
+//        List<Task> projectTasks = new ArrayList<>();
+//        // Use projectRequest instead of project to create the new project
+//        company.addNewProject(new Project(
+//                projectRequest.getTitle(),
+//                projectRequest.getDescription(),
+//                projectTasks,
+//                projectRequest.getStartDate(),
+//                projectRequest.getEndDate()
+//        ));
+//        System.out.println("test3");
+//        companyRepository.save(company);
+//        System.out.println("test4");
+//        return ResponseEntity.ok("Project is added successfully.");
+//    }
 }

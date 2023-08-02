@@ -50,28 +50,36 @@ public class Employee implements UserAccount {
     public List<Meeting> getEmployeeInvitedMeetings() {
         return employeeInvitedMeetings;
     }
-
     
+    public void addUserTask(Task task) {
+        userTasks.add(task);
+    }
+    
+    @Override
     public String getAccountType() {
         return AccountTypes.EMPLOYEE.toString();
     }
 
     
+    @Override
     public String getEmailAddress() {
         return emailAddress;
     }
 
 
+    @Override
     public String getUserFirstName() {
         return userFirstName;
     }
 
 
+    @Override
     public String getUserLastName() {
         return userLastName;
     }
 
 
+    @Override
     public String getPassword() {
         return password;
     }

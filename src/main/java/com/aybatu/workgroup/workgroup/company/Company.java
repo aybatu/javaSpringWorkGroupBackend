@@ -71,4 +71,8 @@ public class Company {
     public void setRegistrationNumber(String registerNo) {
         registrationNumber = registerNo;
     }
+    
+    public void addNewProject(Project project) {
+        projects.add(project);
+    }
 }

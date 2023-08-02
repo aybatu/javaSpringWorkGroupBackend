@@ -29,15 +29,25 @@ public class EmployeeController {
         this.companyService = companyService;
     }   
     
-   @GetMapping("/company/employeeAccounts/{companyRegistrationNumber}")
-   public ResponseEntity<?> getEmployeeAccounts(@PathVariable String companyRegistrationNumber){
-       Company company = companyService.getCompanyByRegistrationNumber(companyRegistrationNumber);
-       
-       if(company != null) {
-           return ResponseEntity.ok(company.getEmployeeAccounts());
-       } else {
-           String errorMsg = "Please check your internet connection. There was an error while fetching company information.";
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMsg);
-       }
-   }
+//   @GetMapping("/{companyRegistrationNumber}/employees")
+//   public ResponseEntity<?> getEmployeeAccounts(@PathVariable String companyRegistrationNumber){
+//       Company company = companyService.getCompanyByRegistrationNumber(companyRegistrationNumber);
+//       
+//       if(company != null) {
+//           return ResponseEntity.ok(company.getEmployeeAccounts());
+//       } else {
+//           String errorMsg = "Please check your internet connection. There was an error while fetching company information.";
+//           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMsg);
+//       }
+//   }
+//   
+//   @GetMapping("/{registrationNumber}/{emailAddress}/employees") 
+//   public ResponseEntity<?> getEmployeeByEmail(@PathVariable String registrationNumber, @PathVariable String emailAddress){
+//       Company company = companyService.getCompanyByRegistrationNumber(registrationNumber);
+//       Employee employee = employeeService.getEmployeeByEmailAddress(company, emailAddress);
+//       if(employee == null) {
+//           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+//       }
+//    return ResponseEntity.ok(employee);
+//    }
 }
