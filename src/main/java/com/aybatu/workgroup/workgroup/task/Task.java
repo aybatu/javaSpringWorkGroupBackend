@@ -6,12 +6,14 @@ package com.aybatu.workgroup.workgroup.task;
 
 
 import com.aybatu.workgroup.workgroup.company.employee.Employee;
+import com.aybatu.workgroup.workgroup.manager.Manager;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -94,5 +96,16 @@ public class Task {
         this.taskEndDate = taskEndDate;
     }
      
+       @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Task task = (Task) obj;
+        return Objects.equals(title, task.title);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
+    }
 }

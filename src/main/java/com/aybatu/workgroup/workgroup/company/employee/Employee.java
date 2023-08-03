@@ -54,6 +54,9 @@ public class Employee implements UserAccount {
     public void addUserTask(Task task) {
         userTasks.add(task);
     }
+    public void removeUserTask(Task task) {
+        userTasks.remove(task);
+    }
     
     @Override
     public String getAccountType() {
