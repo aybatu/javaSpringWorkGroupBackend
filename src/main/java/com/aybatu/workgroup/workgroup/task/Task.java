@@ -6,12 +6,6 @@ package com.aybatu.workgroup.workgroup.task;
 
 
 import com.aybatu.workgroup.workgroup.company.employee.Employee;
-import com.aybatu.workgroup.workgroup.manager.Manager;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -27,10 +21,9 @@ public class Task {
     private String description;
     private List<Employee> assignedEmployees;
     private boolean isTaskCompleted;
- 
     private String taskStartDate;
-
     private String taskEndDate;
+   private boolean taskCompleteRequest;
    
      public Task(
              String title, 
@@ -45,6 +38,7 @@ public class Task {
         this.taskEndDate = taskEndDate;
         this.isTaskCompleted = false;
         this.assignedEmployees = assignedEmployees;
+        this.taskCompleteRequest = false;
         
     }
 
@@ -52,6 +46,12 @@ public class Task {
         return title;
     }
 
+    public boolean isTaskCompleteRequest() {
+        return taskCompleteRequest;
+    }
+    public void sendTaskCompleteRequest() {
+        taskCompleteRequest = true;
+    }
     public String getDescription() {
         return description;
     }

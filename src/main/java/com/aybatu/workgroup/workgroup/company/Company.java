@@ -75,4 +75,11 @@ public class Company {
     public void addNewProject(Project project) {
         projects.add(project);
     }
+    
+    public void addNewMeeting(Meeting meeting) {
+        meetings.add(meeting);
+    }
+    public void removeMeeting(Meeting meeting) {
+        meetings.remove(meeting);
+    }
 }

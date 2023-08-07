@@ -57,6 +57,12 @@ public class Employee implements UserAccount {
     public void removeUserTask(Task task) {
         userTasks.remove(task);
     }
+    public void addMeeting(Meeting meeting) {
+        employeeInvitedMeetings.add(meeting);
+    }
+    public void removeMeeting(Meeting meeting) {
+        employeeInvitedMeetings.remove(meeting);
+    }
     
     @Override
     public String getAccountType() {

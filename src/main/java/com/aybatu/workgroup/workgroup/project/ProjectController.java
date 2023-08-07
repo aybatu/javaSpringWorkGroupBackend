@@ -135,5 +135,27 @@ public class ProjectController {
         return ResponseEntity.ok("Project is added successfully.");
         
     }
+    
+    @PutMapping("/{registrationNumber}/completeProject")
+    public ResponseEntity<?> markProjectCompleted(@PathVariable String registrationNumber, @RequestBody Project project) {
+        Company company = companyService.getCompanyByRegistrationNumber(registrationNumber);
+        
+        List<Project> projects = company.getProjects();
+        
+        int projectIndex = projects.indexOf(project);
+        Project foundProject = projects.get(projectIndex);
+        System.out.println(foundProject);
+        List<Task> taskList = foundProject.getTasks();
+        
+        for(Task t: taskList) {
+            if (t.isIsTaskCompleted() == false) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("The project has task or tasks not completed yet. You cannot complete the project before all tasks are completed.");
+            }
+        }
+        
+        foundProject.completeProject();
+        companyService.saveCompany(company);
+        return ResponseEntity.ok("Project is completed.");
+    }
 
 }
