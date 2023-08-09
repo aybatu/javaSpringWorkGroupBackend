@@ -46,9 +46,7 @@ public class Task {
         return title;
     }
 
-    public boolean isTaskCompleteRequest() {
-        return taskCompleteRequest;
-    }
+   
     public void sendTaskCompleteRequest() {
         taskCompleteRequest = true;
     }
@@ -63,6 +61,11 @@ public class Task {
     public boolean isIsTaskCompleted() {
         return isTaskCompleted;
     }
+
+    public boolean isTaskCompleteRequest() {
+        return taskCompleteRequest;
+    }
+
 
     public String getTaskStartDate() {
         return taskStartDate;
@@ -84,8 +87,8 @@ public class Task {
         this.assignedEmployees = assignedEmployees;
     }
 
-    public void setIsTaskCompleted(boolean isTaskCompleted) {
-        this.isTaskCompleted = isTaskCompleted;
+    public void completeTask() {
+        this.isTaskCompleted = true ;
     }
 
     public void setTaskStartDate(String taskStartDate) {

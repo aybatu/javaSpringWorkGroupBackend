@@ -30,6 +30,8 @@ public class Company {
     private List<Manager> managerAccounts;
     private List<Project> projects;
     private List<Meeting> meetings;
+    private List<Project> completedProjects;
+
 
     public Company(String companyName, Admin ownerAccount) {
         this.companyName = companyName;
@@ -38,10 +40,15 @@ public class Company {
         this.managerAccounts = new ArrayList<>();
         this.projects = new ArrayList<>();
         this.meetings = new ArrayList<>();
+        this.completedProjects = new ArrayList<>();
     }
 
     public String getRegistrationNumber() {
         return registrationNumber;
+    }
+
+    public List<Project> getCompletedProjects() {
+        return completedProjects;
     }
 
     public Admin getOwnerAccount() {
@@ -81,5 +88,9 @@ public class Company {
     }
     public void removeMeeting(Meeting meeting) {
         meetings.remove(meeting);
+    }
+    public void completeProject(Project project) {
+        projects.remove(project);
+        completedProjects.add(project);
     }
 }

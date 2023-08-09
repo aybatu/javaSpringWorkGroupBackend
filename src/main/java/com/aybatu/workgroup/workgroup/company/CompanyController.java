@@ -8,7 +8,6 @@ import com.aybatu.workgroup.workgroup.company.employee.Employee;
 import com.aybatu.workgroup.workgroup.company.employee.EmployeeService;
 import com.aybatu.workgroup.workgroup.manager.Manager;
 import com.aybatu.workgroup.workgroup.manager.ManagerService;
-import com.aybatu.workgroup.workgroup.project.Project;
 import com.aybatu.workgroup.workgroup.userAccountRequests.CreateUserAccountRequest;
 import com.aybatu.workgroup.workgroup.userAccountRequests.DeleteUserAccountRequest;
 import com.aybatu.workgroup.workgroup.userAccountRequests.UpdateUserAccountRequest;
@@ -87,7 +86,7 @@ public class CompanyController {
         try {
             // Retrieve the company from the database using the registration number
             Company company = companyService.getCompanyByRegistrationNumber(registrationNumber);
-
+       
             if (company != null) {
                 return ResponseEntity.ok(company);
             } else {

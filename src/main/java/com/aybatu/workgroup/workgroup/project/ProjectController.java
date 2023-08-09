@@ -5,7 +5,6 @@
 package com.aybatu.workgroup.workgroup.project;
 
 import com.aybatu.workgroup.workgroup.company.Company;
-import com.aybatu.workgroup.workgroup.company.CompanyRepository;
 import com.aybatu.workgroup.workgroup.company.CompanyService;
 import com.aybatu.workgroup.workgroup.company.employee.Employee;
 import com.aybatu.workgroup.workgroup.task.Task;
@@ -132,7 +131,7 @@ public class ProjectController {
         company.addNewProject(updateProjectRequest.getUpdatedProject());
 
         companyService.saveCompany(company);
-        return ResponseEntity.ok("Project is added successfully.");
+        return ResponseEntity.ok("Project is updated successfully.");
         
     }
     
@@ -144,7 +143,7 @@ public class ProjectController {
         
         int projectIndex = projects.indexOf(project);
         Project foundProject = projects.get(projectIndex);
-        System.out.println(foundProject);
+        
         List<Task> taskList = foundProject.getTasks();
         
         for(Task t: taskList) {
@@ -152,10 +151,87 @@ public class ProjectController {
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("The project has task or tasks not completed yet. You cannot complete the project before all tasks are completed.");
             }
         }
-        
         foundProject.completeProject();
+        company.completeProject(foundProject);
+      
         companyService.saveCompany(company);
         return ResponseEntity.ok("Project is completed.");
     }
+    
+    
+     @PutMapping("/{registrationNo}/acceptTaskCompletion")
+    public ResponseEntity<?> acceptTaskCompletion(@PathVariable String registrationNo, @RequestBody CompleteProjectTaskRequest completeTaskRequest) {
+        Company company = companyService.getCompanyByRegistrationNumber(registrationNo);
+        
+        List<Project> projects = company.getProjects();
+        
+        Project foundProject = projects.stream()
+                .filter(project -> project.getTitle().equalsIgnoreCase(completeTaskRequest.getProject().getTitle()))
+                .findFirst()
+                .orElse(null);
+        
+        if(foundProject == null) {
+            return ResponseEntity.ofNullable("Project is not found.");
+        }
+        
+        Task foundTask = foundProject.getCompletedTasksRequests().stream()
+                .filter(task -> task.getTitle().equalsIgnoreCase(completeTaskRequest.getTask().getTitle()))
+                .findFirst()
+                .orElse(null);
+        
+        if(foundTask == null) {
+            return ResponseEntity.ofNullable("Task is not found");
+        }
+        
+        foundProject.completeTask(foundTask);
+        companyService.saveCompany(company);
+        
+        return ResponseEntity.ok("Task is completed.");
+    }
 
+    @PutMapping("/{registrationNo}/rejectTaskCompletion")
+    public ResponseEntity<?> rejectTaskCompletion(@PathVariable String registrationNo, @RequestBody CompleteProjectTaskRequest rejectTaskRequest) {
+        Company company = companyService.getCompanyByRegistrationNumber(registrationNo);
+        
+        List<Project> projects = company.getProjects();
+        List<Employee> companyEmployeeList = company.getEmployeeAccounts();
+        
+        Project foundProject = projects.stream()
+                .filter(project -> project.getTitle().equalsIgnoreCase(rejectTaskRequest.getProject().getTitle()))
+                .findFirst()
+                .orElse(null);
+        
+        if(foundProject == null) {
+            return ResponseEntity.ofNullable("Project is no longer available.");
+        }
+
+        
+        List<Task> taskList = foundProject.getCompletedTasksRequests();
+        Task foundTask = taskList.stream()
+                .filter(task -> task.getTitle().equalsIgnoreCase(rejectTaskRequest.getTask().getTitle()))
+                .findFirst()
+                .orElse(null);
+        
+        if(foundTask == null) {
+            return ResponseEntity.ofNullable("Task is no longer available");
+        }
+        
+        foundProject.rejectTaskCompleteRequest(foundTask);
+        
+        List<Employee> assignedEmployees = rejectTaskRequest.getTask().getAssignedEmployees();
+        for(Employee e: assignedEmployees) {
+            Employee foundEmployee = companyEmployeeList.stream() 
+                    .filter(employee -> employee.getEmailAddress().equalsIgnoreCase(e.getEmailAddress()))
+                    .findFirst()
+                    .orElse(null);
+            
+            if(foundEmployee != null) {
+                foundEmployee.addUserTask(rejectTaskRequest.getTask());
+            }
+        }
+        
+        
+        companyService.saveCompany(company);
+        return ResponseEntity.ok("Task is completion is rejected.");
+    }
 }
