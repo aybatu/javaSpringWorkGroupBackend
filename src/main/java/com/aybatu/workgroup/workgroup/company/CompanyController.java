@@ -4,6 +4,7 @@
  */
 package com.aybatu.workgroup.workgroup.company;
 
+import com.aybatu.workgroup.workgroup.admin.Admin;
 import com.aybatu.workgroup.workgroup.company.employee.Employee;
 import com.aybatu.workgroup.workgroup.company.employee.EmployeeService;
 import com.aybatu.workgroup.workgroup.manager.Manager;
@@ -11,6 +12,7 @@ import com.aybatu.workgroup.workgroup.manager.ManagerService;
 import com.aybatu.workgroup.workgroup.userAccountRequests.CreateUserAccountRequest;
 import com.aybatu.workgroup.workgroup.userAccountRequests.DeleteUserAccountRequest;
 import com.aybatu.workgroup.workgroup.userAccountRequests.UpdateUserAccountRequest;
+import com.aybatu.workgroup.workgroup.userAccountRequests.UserAccount;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,17 +46,6 @@ public class CompanyController {
         this.managerService = managerService;
     }
     
-//     @GetMapping("/{companyRegistrationNumber}/users/{email}")
-//    public Manager getUserByEmail(@PathVariable String companyRegistrationNumber, @PathVariable String email) {
-//        Company company = companyService.getCompanyByRegistrationNumber(companyRegistrationNumber);
-//        if (company != null) {
-//            return company.getManagerAccounts().stream()
-//                    .filter(userAccount -> userAccount.getEmailAddress().equals(email))
-//                    .findFirst()
-//                    .orElse(null);
-//        }
-//        return null;
-//    }
     
     @PostMapping("/registercompany")
     public ResponseEntity<?> createCompany(@RequestBody Company company) {
@@ -81,18 +72,53 @@ public class CompanyController {
         }
     }
 
-    @GetMapping("/company/{registrationNumber}")
-    public ResponseEntity<?> getCompanyByRegistrationNumber(@PathVariable String registrationNumber) {
+    @PostMapping("/company/login")
+    public ResponseEntity<?> getCompanyByRegistrationNumber(@RequestBody CompanyLoginRequest companyLoginRequest) {
         try {
             // Retrieve the company from the database using the registration number
-            Company company = companyService.getCompanyByRegistrationNumber(registrationNumber);
+            Company company = companyService.getCompanyByRegistrationNumber(companyLoginRequest.registrationNumber);
        
-            if (company != null) {
-                return ResponseEntity.ok(company);
-            } else {
-                String errorMessage = "Company not found.";
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+            if (company == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There is no company found with this registration number.");
             }
+            Admin foundAdmin = company.getOwnerAccount();
+            Manager foundManager = company.getManagerAccounts().stream()
+                    .filter(isManager -> isManager.getEmailAddress().equalsIgnoreCase(companyLoginRequest.email))
+                    .findFirst()
+                    .orElse(null);
+            Employee foundEmployee = company.getEmployeeAccounts().stream()
+                    .filter(isEmployee -> isEmployee.getEmailAddress().equalsIgnoreCase(companyLoginRequest.email))
+                    .findFirst()
+                    .orElse(null);
+            
+            if(foundManager == null && foundEmployee == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entered email address is not found in the system.");
+            } else {
+                
+                UserAccount userAccount;
+                boolean isPasswordCorrect;
+                 
+                if(foundEmployee != null){
+                    userAccount = foundEmployee;
+                    isPasswordCorrect = userAccount.getPassword().equals(companyLoginRequest.password);
+                } else if(foundManager != null) {
+                    userAccount = foundManager;
+                    isPasswordCorrect = userAccount.getPassword().equals(companyLoginRequest.password);
+                } else {
+                    userAccount = foundAdmin;
+                    isPasswordCorrect = userAccount.getPassword().equals(companyLoginRequest.password);
+                }
+              
+                if(isPasswordCorrect) {
+                    LoginRespond loginRespond = new LoginRespond();
+                    loginRespond.setCompany(company);
+                    loginRespond.setUserAccount(userAccount);
+                    return ResponseEntity.status(HttpStatus.ACCEPTED).body(loginRespond);
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Incorrect password.");
+                }
+            }
+            
         } catch (Exception e) {
             String errorMessage = "An error occurred while retrieving the company.";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
